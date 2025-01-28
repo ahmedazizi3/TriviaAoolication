@@ -17,11 +17,11 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun provideQuestionRepository(questionAPI: QuestionAPI) = QuestionRepository(questionAPI)
+    fun provideQuestionRepository(questionAPI: QuestionAPI) = QuestionRepository(questionAPI = questionAPI)
 
 
     @Singleton
-     @Provides
+    @Provides
     fun provideQuestionAPI(): QuestionAPI {
         return Retrofit
             .Builder()
