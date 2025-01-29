@@ -48,12 +48,3 @@ fun NumberOfQuestionSection(
 
     }
 }
-
-@Preview
-@Composable
-private fun TopSectionPreview() {
-    NumberOfQuestionSection(
-        backgroundColor = Color.Gray,
-        textColor = Color.White
-    )
-}

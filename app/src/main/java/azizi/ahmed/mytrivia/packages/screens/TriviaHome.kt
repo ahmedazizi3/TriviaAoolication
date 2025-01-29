@@ -90,10 +90,3 @@ fun TriviaHome(
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-private fun TriviaHomePreview() {
-    TriviaHome()
-}
