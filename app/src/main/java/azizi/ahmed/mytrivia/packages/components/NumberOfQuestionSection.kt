@@ -29,10 +29,10 @@ fun NumberOfQuestionSection(
             .background(backgroundColor)
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Question  $questionNumber/",
+            text = "Question:  $questionNumber/",
             fontSize = 40.sp,
             fontWeight = FontWeight.ExtraBold,
             color = textColor
