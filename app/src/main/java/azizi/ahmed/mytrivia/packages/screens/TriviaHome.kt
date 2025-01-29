@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import azizi.ahmed.mytrivia.packages.components.DottedLineSection
@@ -21,6 +20,7 @@ import azizi.ahmed.mytrivia.packages.components.NumberOfQuestionSection
 import azizi.ahmed.mytrivia.packages.components.QuestionAndChoicesSection
 import azizi.ahmed.mytrivia.packages.util.AppColors
 import azizi.ahmed.mytrivia.packages.view_model.QuestionsViewModel
+import kotlin.random.Random
 
 
 @Composable
@@ -83,7 +83,7 @@ fun TriviaHome(
                         questionIndex = questionIndex,
                         viewModel = viewModel
                     ) {
-                        questionIndex.value += 1
+                        questionIndex.value = Random.nextInt(0, questions.size)
                     }
                 }
             }
