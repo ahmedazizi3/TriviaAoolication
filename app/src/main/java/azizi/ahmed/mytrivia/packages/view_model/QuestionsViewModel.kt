@@ -8,6 +8,7 @@ import azizi.ahmed.mytrivia.packages.data.DataOrException
 import azizi.ahmed.mytrivia.packages.model.QuestionItem
 import azizi.ahmed.mytrivia.packages.repository.QuestionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +28,13 @@ class QuestionsViewModel @Inject constructor(private val repository: QuestionRep
             data.value.loading = true
             data.value = repository.getAllQuestions()
             if (data.value.data.toString().isNotEmpty()) data.value.loading = false
+        }
+    }
+
+    fun onAnswerSelected(questionIndex: Int, onNextClicked: (Int) -> Unit) {
+        viewModelScope.launch {
+            delay(1500) // ✅ Delay inside ViewModel
+            onNextClicked(questionIndex) // ✅ Move to next question
         }
     }
 }

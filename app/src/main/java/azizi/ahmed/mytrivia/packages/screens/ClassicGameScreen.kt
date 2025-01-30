@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,13 +18,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import azizi.ahmed.mytrivia.packages.components.DottedLineSection
 import azizi.ahmed.mytrivia.packages.components.NumberOfQuestionSection
 import azizi.ahmed.mytrivia.packages.components.QuestionAndChoicesSection
+import azizi.ahmed.mytrivia.packages.components.ScreenTitleSection
 import azizi.ahmed.mytrivia.packages.util.AppColors
 import azizi.ahmed.mytrivia.packages.view_model.QuestionsViewModel
 import kotlin.random.Random
 
 
 @Composable
-fun TriviaHome(
+fun ClassicGameScreen(
     modifier: Modifier = Modifier,
     viewModel: QuestionsViewModel = hiltViewModel()
 ) {
@@ -34,7 +35,7 @@ fun TriviaHome(
     )
     val questions = viewModel.data.value.data?.toMutableList()
     val questionIndex = remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
     Surface(
@@ -49,12 +50,25 @@ fun TriviaHome(
                 .background(AppColors.mDarkPurple),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+
             Spacer(modifier = modifier.padding(20.dp))
+
+            ScreenTitleSection(
+                title = "Classic Game"
+            )
+
+            Spacer(modifier = modifier.padding(10.dp))
+
+            DottedLineSection(
+                pathEffect = pathEffect
+            )
+
+            Spacer(modifier = modifier.padding(10.dp))
 
             NumberOfQuestionSection(
                 backgroundColor = AppColors.mDarkPurple,
                 textColor = AppColors.mLightGray,
-                questionNumber = questionIndex.value + 1,
+                questionNumber = questionIndex.intValue + 1,
                 totalQuestionsNumber = questions?.size?.plus(1) ?: 0
             )
 
@@ -73,7 +87,7 @@ fun TriviaHome(
                 )
             } else {
                 val question = try {
-                    questions?.get(questionIndex.value)
+                    questions?.get(questionIndex.intValue)
                 } catch (ex: Exception) {
                     null
                 }
@@ -83,7 +97,7 @@ fun TriviaHome(
                         questionIndex = questionIndex,
                         viewModel = viewModel
                     ) {
-                        questionIndex.value = Random.nextInt(0, questions.size)
+                        questionIndex.intValue = Random.nextInt(0, questions.size)
                     }
                 }
             }

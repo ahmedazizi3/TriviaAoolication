@@ -2,7 +2,6 @@ package azizi.ahmed.mytrivia.packages.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,11 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -57,10 +52,24 @@ fun QuestionAndChoicesSection(
         mutableStateOf<Boolean?>(null)
     }
 
+    val isAnswered = remember {
+        mutableStateOf(false)
+    }
+
     val updateAnswer: (Int) -> Unit = remember(question) {
-        {
-            answerState.value = it
-            correctAnswerState.value = choicesState[it] == question.answer
+        { it ->
+            if (!isAnswered.value) {
+                answerState.value = it
+                correctAnswerState.value = choicesState[it] == question.answer
+                isAnswered.value = true // ✅ Lock selection
+                viewModel.onAnswerSelected(questionIndex.value) {
+                    // ✅ Move to the next question & reset state
+                    answerState.value = null
+                    correctAnswerState.value = null
+                    isAnswered.value = false // ✅ Enable choices for the new question
+                    onNextClicked(it) // Proceed to the next question
+                }
+            }
         }
     }
 
@@ -77,7 +86,7 @@ fun QuestionAndChoicesSection(
             fontWeight = FontWeight.Bold,
             color = AppColors.mOffWhite,
             modifier = modifier
-                .fillMaxHeight(0.3f)
+                .fillMaxHeight(0.4f)
         )
 
         // TODO: Choices
@@ -113,6 +122,7 @@ fun QuestionAndChoicesSection(
                     onClick = {
                         updateAnswer(index)
                     },
+                    enabled = !isAnswered.value,
                     modifier = modifier.padding(start = 16.dp),
                     colors = RadioButtonDefaults.colors(
                         selectedColor = if (correctAnswerState.value == true && index == answerState.value) {
@@ -147,30 +157,6 @@ fun QuestionAndChoicesSection(
         }
 
         Spacer(modifier = modifier.height(20.dp))
-
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(
-                onClick = {
-                    // TODO: Handling "Next" Functionality
-                    onNextClicked(questionIndex.value)
-                },
-                colors = ButtonColors(
-                    contentColor = AppColors.mOffWhite,
-                    containerColor = AppColors.mLightBlue,
-                    disabledContentColor = AppColors.mOffWhite,
-                    disabledContainerColor = AppColors.mLightBlue
-                ),
-                shape = CircleShape
-            ) {
-                Text(
-                    text = "Next",
-                    fontSize = 30.sp
-                )
-            }
-        }
     }
 }
 

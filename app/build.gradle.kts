@@ -82,5 +82,8 @@ dependencies {
     // GSON Converter
     implementation(libs.converter.gson)
 
+//    Navigation
+    implementation(libs.androidx.navigation.compose)
+
 
 }

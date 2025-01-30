@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -33,8 +32,8 @@ fun NumberOfQuestionSection(
     ) {
         Text(
             text = "Question:  $questionNumber/",
-            fontSize = 40.sp,
-            fontWeight = FontWeight.ExtraBold,
+            fontSize = 35.sp,
+            fontWeight = FontWeight.Bold,
             color = textColor
         )
 
