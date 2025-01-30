@@ -19,15 +19,26 @@ class QuestionsViewModel @Inject constructor(private val repository: QuestionRep
             DataOrException(null, true, Exception(""))
         )
 
-    init {
-        getAllQuestions()
-    }
+//    init {
+//        getAllQuestions()
+//    }
 
-    private fun getAllQuestions() {
+    fun getAllQuestions() {
         viewModelScope.launch {
             data.value.loading = true
             data.value = repository.getAllQuestions()
             if (data.value.data.toString().isNotEmpty()) data.value.loading = false
+        }
+    }
+
+    fun getRaceModeQuestions() {
+        viewModelScope.launch {
+            val result = repository.getAllQuestions() // Fetch all questions from the API
+            if (result.data != null) {
+                // Shuffle the questions and take the first 10
+                val randomQuestions = result.data!!.shuffled().take(10)
+                data.value = DataOrException(ArrayList(randomQuestions), false, null)
+            }
         }
     }
 

@@ -14,7 +14,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,8 +36,9 @@ import azizi.ahmed.mytrivia.packages.view_model.QuestionsViewModel
 fun QuestionAndChoicesSection(
     modifier: Modifier = Modifier,
     question: QuestionItem,
-    questionIndex: MutableState<Int>,
+    questionIndex: MutableIntState,
     viewModel: QuestionsViewModel,
+    addToScore: () -> Unit = {},
     onNextClicked: (Int) -> Unit = {}
 ) {
     val choicesState = remember(question) {
@@ -60,14 +61,14 @@ fun QuestionAndChoicesSection(
         { it ->
             if (!isAnswered.value) {
                 answerState.value = it
-                correctAnswerState.value = choicesState[it] == question.answer
-                isAnswered.value = true // ✅ Lock selection
-                viewModel.onAnswerSelected(questionIndex.value) {
-                    // ✅ Move to the next question & reset state
-                    answerState.value = null
-                    correctAnswerState.value = null
-                    isAnswered.value = false // ✅ Enable choices for the new question
-                    onNextClicked(it) // Proceed to the next question
+                correctAnswerState.value
+                questionIndex.intValue.let { it1 ->
+                    viewModel.onAnswerSelected(it1) {
+                        answerState.value = null
+                        correctAnswerState.value = null
+                        isAnswered.value = false
+                        onNextClicked(it)
+                    }
                 }
             }
         }
@@ -121,6 +122,9 @@ fun QuestionAndChoicesSection(
                     selected = (answerState.value == index),
                     onClick = {
                         updateAnswer(index)
+                        if (correctAnswerState.value == true) {
+                            addToScore()
+                        }
                     },
                     enabled = !isAnswered.value,
                     modifier = modifier.padding(start = 16.dp),

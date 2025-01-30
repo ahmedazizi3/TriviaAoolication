@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,8 +25,8 @@ import azizi.ahmed.mytrivia.packages.util.AppColors
 @Composable
 fun StartingScreen(
     modifier: Modifier = Modifier,
-    navigateToClassicGame : () -> Unit = {},
-    navigateToRaceTimeGame : () -> Unit = {}
+    navigateToClassicGame : () -> Unit,
+    navigateToRaceTimeGame : () -> Unit
 ) {
     Surface(
         modifier = modifier
@@ -41,6 +42,8 @@ fun StartingScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+
+            Spacer(modifier = modifier.height(25.dp))
             Text(
                 text = "Trivia",
                 color = AppColors.mOffWhite,
@@ -79,6 +82,8 @@ fun StartingScreen(
 
             Spacer(modifier = modifier.height(10.dp))
 
+
+//            TODO: Taking care of the race with time screen later ...
             Button(
                 onClick = {
                     navigateToRaceTimeGame()
@@ -94,12 +99,23 @@ fun StartingScreen(
                     fontSize = 30.sp,
                 )
             }
+
+            Text(
+                text = "BY Ahmed Azizi",
+                modifier = modifier
+                    .padding(top = 270.dp, end = 20.dp)
+                    .align(Alignment.End),
+                fontStyle = FontStyle.Italic,
+            )
         }
     }
 }
 
-@Preview
-@Composable
-private fun StartingScreenPreview() {
-    StartingScreen()
-}
+//@Preview
+//@Composable
+//private fun StartingScreenPreview() {
+//    StartingScreen(
+//        navigateToClassicGame = {},
+//        navigateToRaceTimeGame = {}
+//    )
+//}

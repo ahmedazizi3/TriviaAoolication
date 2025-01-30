@@ -1,4 +1,4 @@
-package azizi.ahmed.mytrivia.ui.theme
+package azizi.ahmed.mytrivia.packages.ui.theme
 
 import android.app.Activity
 import android.os.Build

@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import azizi.ahmed.mytrivia.packages.navigation.Navigation
-import azizi.ahmed.mytrivia.ui.theme.MyTriviaTheme
+import azizi.ahmed.mytrivia.packages.components.CircularCountdownTimer
+import azizi.ahmed.mytrivia.packages.navigation.TriviaNavigation
+import azizi.ahmed.mytrivia.packages.screens.RaceTimeGameScreen
+import azizi.ahmed.mytrivia.packages.ui.theme.MyTriviaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -24,7 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation()
+                    TriviaNavigation()
                 }
             }
         }

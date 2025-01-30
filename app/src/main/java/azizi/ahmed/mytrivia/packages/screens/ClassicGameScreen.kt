@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +18,6 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import azizi.ahmed.mytrivia.packages.components.DottedLineSection
-import azizi.ahmed.mytrivia.packages.components.NumberOfQuestionSection
 import azizi.ahmed.mytrivia.packages.components.QuestionAndChoicesSection
 import azizi.ahmed.mytrivia.packages.components.ScreenTitleSection
 import azizi.ahmed.mytrivia.packages.util.AppColors
@@ -29,10 +30,14 @@ fun ClassicGameScreen(
     modifier: Modifier = Modifier,
     viewModel: QuestionsViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getAllQuestions()
+    }
     val pathEffect = PathEffect.dashPathEffect(
         floatArrayOf(10f, 10f),
         0f
     )
+
     val questions = viewModel.data.value.data?.toMutableList()
     val questionIndex = remember {
         mutableIntStateOf(0)
@@ -58,22 +63,6 @@ fun ClassicGameScreen(
             )
 
             Spacer(modifier = modifier.padding(10.dp))
-
-            DottedLineSection(
-                pathEffect = pathEffect
-            )
-
-            Spacer(modifier = modifier.padding(10.dp))
-
-            NumberOfQuestionSection(
-                backgroundColor = AppColors.mDarkPurple,
-                textColor = AppColors.mLightGray,
-                questionNumber = questionIndex.intValue + 1,
-                totalQuestionsNumber = questions?.size?.plus(1) ?: 0
-            )
-
-            Spacer(modifier = modifier.padding(10.dp))
-
 
             DottedLineSection(
                 pathEffect = pathEffect
