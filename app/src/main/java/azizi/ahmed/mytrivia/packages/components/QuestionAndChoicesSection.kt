@@ -2,6 +2,7 @@ package azizi.ahmed.mytrivia.packages.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -53,22 +54,30 @@ fun QuestionAndChoicesSection(
         mutableStateOf<Boolean?>(null)
     }
 
-    val isAnswered = remember {
+    val isAnswered = remember(question) {
         mutableStateOf(false)
     }
 
     val updateAnswer: (Int) -> Unit = remember(question) {
-        { it ->
+        { selectedIndex ->
             if (!isAnswered.value) {
-                answerState.value = it
-                correctAnswerState.value
-                questionIndex.intValue.let { it1 ->
-                    viewModel.onAnswerSelected(it1) {
-                        answerState.value = null
-                        correctAnswerState.value = null
-                        isAnswered.value = false
-                        onNextClicked(it)
-                    }
+                answerState.value = selectedIndex
+                isAnswered.value = true
+                val correctIndex = choicesState.indexOf(question.answer)
+
+                if (selectedIndex == correctIndex) {
+                    correctAnswerState.value = true
+                    addToScore()
+                } else {
+                    correctAnswerState.value = false
+                }
+
+                // Delay to show answer feedback before moving to next question
+                viewModel.onAnswerSelected(questionIndex.intValue) {
+                    answerState.value = null
+                    correctAnswerState.value = null
+                    isAnswered.value = false
+                    onNextClicked(it)
                 }
             }
         }
@@ -115,7 +124,14 @@ fun QuestionAndChoicesSection(
                             bottomStartPercent = 50
                         )
                     )
-                    .background(Color.Transparent),
+                    .background(Color.Transparent)
+                    .clickable {
+                        updateAnswer(index)
+                        if (correctAnswerState.value == true) {
+                            addToScore()
+                        }
+
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
@@ -129,10 +145,11 @@ fun QuestionAndChoicesSection(
                     enabled = !isAnswered.value,
                     modifier = modifier.padding(start = 16.dp),
                     colors = RadioButtonDefaults.colors(
-                        selectedColor = if (correctAnswerState.value == true && index == answerState.value) {
-                            Color.Green.copy(alpha = 0.2f)
-                        } else {
-                            Color.Red.copy(alpha = 0.2f)
+                        selectedColor = when {
+                            correctAnswerState.value == true && index == answerState.value -> Color.Green.copy(alpha = 0.2f)
+                            correctAnswerState.value == false && index == answerState.value -> Color.Red.copy(alpha = 0.2f)
+                            correctAnswerState.value == false && index == choicesState.indexOf(question.answer) -> Color.Green.copy(alpha = 0.2f)
+                            else -> Color.Gray.copy(alpha = 0.2f)
                         }
                     )
                 )
@@ -140,12 +157,11 @@ fun QuestionAndChoicesSection(
                     withStyle(
                         style = SpanStyle(
                             fontWeight = FontWeight.Light,
-                            color = if (correctAnswerState.value == true && index == answerState.value) {
-                                Color.Green
-                            } else if (correctAnswerState.value == false && index == answerState.value) {
-                                Color.Red
-                            } else {
-                                AppColors.mOffWhite
+                            color = when {
+                                correctAnswerState.value == true && index == answerState.value -> Color.Green
+                                correctAnswerState.value == false && index == answerState.value -> Color.Red
+                                correctAnswerState.value == false && index == choicesState.indexOf(question.answer) -> Color.Green
+                                else -> AppColors.mOffWhite
                             },
                             fontSize = 17.sp
                         )
