@@ -19,10 +19,6 @@ class QuestionsViewModel @Inject constructor(private val repository: QuestionRep
             DataOrException(null, true, Exception(""))
         )
 
-//    init {
-//        getAllQuestions()
-//    }
-
     fun getAllQuestions() {
         viewModelScope.launch {
             data.value.loading = true
@@ -44,7 +40,7 @@ class QuestionsViewModel @Inject constructor(private val repository: QuestionRep
 
     fun onAnswerSelected(questionIndex: Int, onNextClicked: (Int) -> Unit) {
         viewModelScope.launch {
-            delay(1500) // ✅ Delay inside ViewModel
+            delay(2000) // ✅ Delay inside ViewModel
             onNextClicked(questionIndex) // ✅ Move to next question
         }
     }
