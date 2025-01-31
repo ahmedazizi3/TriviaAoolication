@@ -54,6 +54,8 @@ fun RaceTimeGameScreen(
         mutableIntStateOf(0)
     }
 
+
+
     Surface(
         modifier = modifier
             .fillMaxSize()
@@ -126,7 +128,12 @@ fun RaceTimeGameScreen(
                         }
                     ) {
                         // Proceed to next question
-                        questionIndex.intValue = (questionIndex.intValue + 1) % questions.size
+                        if (questionIndex.intValue + 1 >= questions.size) {
+                            navigateToStartingScreen()
+                            Toast.makeText(context, "Your score is ${score.intValue}/10", Toast.LENGTH_SHORT).show()
+                        } else {
+                            questionIndex.intValue++
+                        }
                     }
                 }
             }
