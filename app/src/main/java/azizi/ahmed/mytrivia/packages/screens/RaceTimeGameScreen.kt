@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
@@ -20,7 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import azizi.ahmed.mytrivia.packages.components.CircularCountdownTimer
 import azizi.ahmed.mytrivia.packages.components.DottedLineSection
@@ -94,14 +98,18 @@ fun RaceTimeGameScreen(
                     questionNumber = questionIndex.intValue + 1,
                     totalQuestionsNumber = questions.size
                 )
-
-                CircularCountdownTimer(
-                    totalTime = 60
-                ) {
-//                    TODO: Handle timer end
-                    navigateToStartingScreen()
-                    Toast.makeText(context, "Your score is ${score.intValue}/10", Toast.LENGTH_SHORT).show()
+                val question = questions.getOrNull(questionIndex.intValue)
+                if (question != null) {
+                    CircularCountdownTimer(
+                        totalTime = 60
+                    ) {
+//                    Handle timer end
+                        navigateToStartingScreen()
+                        Toast.makeText(context, "Your score is ${score.intValue}/10", Toast.LENGTH_SHORT).show()
+                    }
                 }
+
+
                 Spacer(modifier = modifier.width(10.dp))
             }
 
@@ -135,6 +143,15 @@ fun RaceTimeGameScreen(
                             questionIndex.intValue++
                         }
                     }
+
+                    Spacer(modifier = modifier.height(10.dp))
+
+                    Text(
+                        text = "Score: ${score.intValue}/10",
+                        color = AppColors.mOffWhite,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
                 }
             }
         }
