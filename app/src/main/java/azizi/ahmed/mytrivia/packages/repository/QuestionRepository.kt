@@ -19,18 +19,4 @@ class QuestionRepository @Inject constructor(private val questionAPI: QuestionAP
         }
         return dataOrException
     }
-
-    suspend fun getRandomQuestions(): DataOrException<ArrayList<QuestionItem>, Boolean, Exception> {
-        try {
-            dataOrException.loading = true
-            val allQuestions = questionAPI.getAllQuestions()
-            if (allQuestions.isNotEmpty()) {
-                dataOrException.data = ArrayList(allQuestions.shuffled().take(10)) // Select 10 random questions
-                dataOrException.loading = false
-            }
-        } catch (exception: Exception) {
-            dataOrException.exception = exception
-        }
-        return dataOrException
-    }
 }
