@@ -14,16 +14,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuestionsViewModel @Inject constructor(private val questionRepository: QuestionRepository): ViewModel() {
-    val data: MutableState<DataOrException<ArrayList<QuestionItem>, Boolean, Exception>> =
+    val viewModelDataOrException: MutableState<DataOrException<ArrayList<QuestionItem>, Boolean, Exception>> =
         mutableStateOf(
             DataOrException(null, true, Exception(""))
         )
 
     fun getAllQuestions() {
         viewModelScope.launch {
-            data.value.loading = true
-            data.value = questionRepository.getAllQuestions()
-            if (data.value.data.toString().isNotEmpty()) data.value.loading = false
+            viewModelDataOrException.value.loading = true
+            viewModelDataOrException.value = questionRepository.getAllQuestions()
+            if (viewModelDataOrException.value.data.toString().isNotEmpty()) viewModelDataOrException.value.loading = false
         }
     }
 
@@ -33,7 +33,7 @@ class QuestionsViewModel @Inject constructor(private val questionRepository: Que
             if (result.data != null) {
                 // Shuffle the questions and take the first 10
                 val randomQuestions = result.data!!.shuffled().take(10)
-                data.value = DataOrException(ArrayList(randomQuestions), false, null)
+                viewModelDataOrException.value = DataOrException(ArrayList(randomQuestions), false, null)
             }
         }
     }

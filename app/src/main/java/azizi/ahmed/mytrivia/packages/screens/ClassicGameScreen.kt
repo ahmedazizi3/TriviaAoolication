@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +44,7 @@ fun ClassicGameScreen(
         mutableIntStateOf(0)
     }
 
-    val questions = viewModel.data.value.data?.toMutableList()
+    val questions = viewModel.viewModelDataOrException.value.data?.toMutableList()
     val questionIndex = remember {
         mutableIntStateOf(0)
     }
@@ -77,7 +76,7 @@ fun ClassicGameScreen(
 
             Spacer(modifier = modifier.padding(10.dp))
 
-            if (viewModel.data.value.loading == true) {
+            if (viewModel.viewModelDataOrException.value.loading == true) {
                 CircularProgressIndicator(
                     color = AppColors.mOffWhite
                 )

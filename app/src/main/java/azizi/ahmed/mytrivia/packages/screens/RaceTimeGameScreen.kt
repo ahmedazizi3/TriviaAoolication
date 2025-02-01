@@ -47,7 +47,7 @@ fun RaceTimeGameScreen(
     }
 
     // Get the shuffled 10 random questions
-    val questions = viewModel.data.value.data?.toMutableList() ?: emptyList()
+    val questions = viewModel.viewModelDataOrException.value.data?.toMutableList() ?: emptyList()
     val questionIndex = remember { mutableIntStateOf(0) }
     val pathEffect = PathEffect.dashPathEffect(
         floatArrayOf(10f, 10f),
@@ -122,7 +122,7 @@ fun RaceTimeGameScreen(
 
             Spacer(modifier = modifier.padding(10.dp))
 
-            if (viewModel.data.value.loading == true) {
+            if (viewModel.viewModelDataOrException.value.loading == true) {
                 CircularProgressIndicator(color = AppColors.mOffWhite)
             } else {
                 val question = questions.getOrNull(questionIndex.intValue)
