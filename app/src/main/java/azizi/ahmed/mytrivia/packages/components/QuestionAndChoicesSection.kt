@@ -105,7 +105,7 @@ fun QuestionAndChoicesSection(
                 modifier = modifier
                     .padding(3.dp)
                     .fillMaxWidth()
-                    .height(45.dp)
+                    .height(65.dp)
                     .border(
                         width = 4.dp, brush = Brush.linearGradient(
                             colors = listOf(
