@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import azizi.ahmed.mytrivia.packages.model.QuestionItem
 import azizi.ahmed.mytrivia.packages.util.AppColors
-import azizi.ahmed.mytrivia.packages.view_model.QuestionsViewModel
+import azizi.ahmed.mytrivia.packages.viewModel.QuestionsViewModel
 
 @Composable
 fun QuestionAndChoicesSection(

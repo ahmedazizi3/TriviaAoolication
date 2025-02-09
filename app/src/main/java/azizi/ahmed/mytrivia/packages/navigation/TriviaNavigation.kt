@@ -1,7 +1,6 @@
 package azizi.ahmed.mytrivia.packages.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,7 +11,6 @@ import azizi.ahmed.mytrivia.packages.screens.RaceTimeGameScreen
 
 @Composable
 fun TriviaNavigation(
-    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -41,8 +39,7 @@ fun TriviaNavigation(
         composable(
             route = TriviaScreens.RaceTimeGameScreen.route
         ) {
-//            TODO: Add RaceTimeGameScreen
-            RaceTimeGameScreen() {
+            RaceTimeGameScreen {
                 navController.popBackStack()
             }
         }

@@ -1,4 +1,4 @@
-package azizi.ahmed.mytrivia.packages.view_model
+package azizi.ahmed.mytrivia.packages.viewModel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

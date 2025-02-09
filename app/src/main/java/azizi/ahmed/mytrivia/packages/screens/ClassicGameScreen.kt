@@ -4,11 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
@@ -16,15 +14,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import azizi.ahmed.mytrivia.packages.components.DottedLineSection
 import azizi.ahmed.mytrivia.packages.components.QuestionAndChoicesSection
 import azizi.ahmed.mytrivia.packages.components.ScreenTitleSection
 import azizi.ahmed.mytrivia.packages.util.AppColors
-import azizi.ahmed.mytrivia.packages.view_model.QuestionsViewModel
+import azizi.ahmed.mytrivia.packages.viewModel.QuestionsViewModel
 import kotlin.random.Random
 
 
@@ -97,15 +93,6 @@ fun ClassicGameScreen(
                     ) {
                         questionIndex.intValue = Random.nextInt(0, questions.size)
                     }
-
-                    Spacer(modifier = modifier.height(10.dp))
-
-                    Text(
-                        text = "Score: ${score.intValue}",
-                        color = AppColors.mOffWhite,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
                 } else {
                     CircularProgressIndicator(
                         color = AppColors.mOffWhite
